@@ -199,7 +199,7 @@ async def time(ctx):
     est_obj = now_obj.astimezone(tz_est)
     autz_obj = now_obj.astimezone(tz_sydney)
 
-    l1 = f". \n **The Current Time Is:** \n"
+    l1 = f" \n **The Current Time Is:** \n"
     l2 = f"**London:(GMT)** {str(uk_obj)[11:16]} \n"
     l3 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
     l4 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
@@ -218,7 +218,7 @@ async def time(ctx):
 async def pilot(ctx, characterName):
     char_srch = requests.get(
         f"https://esi.evetech.net/latest/search/?categories=character&datasource=tranquility"
-        f"&language=en&search={characterName}&strict=false"
+        f"&language=en&search={characterName}&strict=true"
     )
     char_srch_json = char_srch.json()
     if len(char_srch_json) <= 0:
@@ -257,7 +257,7 @@ async def corp(ctx, corporationName):
 
     corp_srch = requests.get(
         f"https://esi.evetech.net/latest/search/?categories=corporation&datasource=tranquility"
-        f"&language=en&search={corporationName}&strict=false"
+        f"&language=en&search={corporationName}&strict=true"
     )
     corp_srch_json = corp_srch.json()
     if len(corp_srch_json) <= 0:
@@ -295,7 +295,7 @@ async def corp(ctx, corporationName):
 async def alice(ctx, alice_name):
     alice_srch = requests.get(
         f"https://esi.evetech.net/latest/search/?categories=alliance&datasource=tranquility"
-        f"&language=en&search={alice_name}&strict=false"
+        f"&language=en&search={alice_name}&strict=true"
     )
     alice_srch_json = alice_srch.json()
     if len(alice_srch_json) <= 0:
