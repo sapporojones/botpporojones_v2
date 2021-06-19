@@ -301,7 +301,7 @@ async def alice(ctx, alice_name):
     if len(alice_srch_json) <= 0:
         raise Exception("Alliance not found")
     else:
-        alice_id = alice_srch_json["corporation"][0]
+        alice_id = alice_srch_json["alliance"][0]
 
     line1 = "**CORP SEARCH RESULTS:**" + "\n"
     line2 = "**ZKB:** https://zkillboard.com/alliance/" + alice_id + "/" + "\n"
