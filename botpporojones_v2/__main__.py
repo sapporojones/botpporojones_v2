@@ -41,7 +41,7 @@ async def d100(ctx):
     name="d",
     help="Roll the arbitrary sided die because you want to for some reason.",
 )
-async def d100(ctx, en):
+async def d(ctx, en):
     roll = str(random.randint(1, int(en)))
     response = f"You rolled a {roll}"
     await ctx.send(response)
@@ -64,12 +64,7 @@ async def create_channel(ctx, channel_name):
 async def weather(ctx, zip_code):
     base_url = "http://api.openweathermap.org/data/2.5/weather?"
     complete_url = (
-        base_url
-        + "appid="
-        + weather_key
-        + "&zip="
-        + str(zip_code)
-        + "&units=imperial"
+        f"{base_url}appid={weather_key}&zip={str(zip_code)}&units=imperial"
     )
     full_json = requests.get(complete_url).json()
     weather_description = full_json["weather"][0]["description"]
