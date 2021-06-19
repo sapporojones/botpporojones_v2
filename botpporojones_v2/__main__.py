@@ -199,8 +199,8 @@ async def time(ctx):
     est_obj = now_obj.astimezone(tz_est)
     autz_obj = now_obj.astimezone(tz_sydney)
 
-    l1 = "\n **The Current Time Is:** \n"
-    l2 = f"**London:** {str(uk_obj)[11:16]} \n"
+    l1 = f". \n **The Current Time Is:** \n"
+    l2 = f"**London:(GMT)** {str(uk_obj)[11:16]} \n"
     l3 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
     l4 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
     l5 = f"**Mountain (USTZ):** {str(mtn_obj)[11:16]} \n"
@@ -217,7 +217,7 @@ async def time(ctx):
 @bot.command(name="pilot", help="get various urls about a given pilot name")
 async def pilot(ctx, characterName):
     char_srch = requests.get(
-        f"https://esi.evetech.net/latest/search/?categories=corporation&datasource=tranquility"
+        f"https://esi.evetech.net/latest/search/?categories=character&datasource=tranquility"
         f"&language=en&search={characterName}&strict=false"
     )
     char_srch_json = char_srch.json()
