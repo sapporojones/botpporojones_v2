@@ -59,8 +59,8 @@ async def d100(ctx):
     help="Roll the arbitrary sided die because you want to for some reason.",
 )
 async def d100(ctx, en):
-    roll = str(random.randint(1, en))
-    response = "You rolled a " + roll
+    roll = str(random.randint(1, int(en)))
+    response = f"You rolled a {roll}"
     await ctx.send(response)
 
 
@@ -304,14 +304,9 @@ async def alice(ctx, alice_name):
         alice_id = alice_srch_json["alliance"][0]
 
     line1 = "**CORP SEARCH RESULTS:**" + "\n"
-    line2 = "**ZKB:** https://zkillboard.com/alliance/" + alice_id + "/" + "\n"
-    line3 = "**EVEWHO:** https://evewho.com/alliance/" + alice_id + "/" + "\n"
-    line4 = (
-        "**DOTLAN:** http://evemaps.dotlan.net/alliance/"
-        + alice_id
-        + "/"
-        + "\n"
-    )
+    line2 = f"**ZKB:** https://zkillboard.com/alliance/{alice_id}/ \n"
+    line3 = f"**EVEWHO:** https://evewho.com/alliance/{alice_id}/ \n"
+    line4 = f"**DOTLAN:** http://evemaps.dotlan.net/alliance/{alice_id}/ \n"
     response = line1 + line2 + line3 + line4
 
     await ctx.send(response)
