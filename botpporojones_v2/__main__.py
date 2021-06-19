@@ -11,20 +11,19 @@
 # 0.9 - moving the PRAW reddit definition vars to .env where they are meant to live
 # 0.9.1 - beginning to add EVE ESI commands for various lookup functions using unknown ids
 
-# imports
-from __future__ import print_function
-import datetime as dt
-import pytz
-import time
 import calendar
 
+# imports
+import datetime as dt
+import json
 import os
 import random
-import discord
-import requests
-import json
-import praw
+import time
 
+import discord
+import praw
+import pytz
+import requests
 from discord.ext import commands
 from dotenv import load_dotenv
 
@@ -187,7 +186,7 @@ async def time(ctx):
     tz_moscow = pytz.timezone("Europe/Moscow")
     tz_pac = pytz.timezone("Europe/London")
     tz_mtn = pytz.timezone("America/Denver")
-    tz_cnt = pytz.timezone("America/Detroit")
+    tz_cnt = pytz.timezone("America/Chicago")
     tz_est = pytz.timezone("America/New_York")
     tz_sydney = pytz.timezone("Europe/London")
 
@@ -200,7 +199,7 @@ async def time(ctx):
     est_obj = now_obj.astimezone(tz_est)
     autz_obj = now_obj.astimezone(tz_sydney)
 
-    l1 = "**The Current Time Is:** \n"
+    l1 = "\n **The Current Time Is:** \n"
     l2 = f"**EVE:** {str(uk_obj)[11:16]} \n"
     l3 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
     l4 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
