@@ -184,11 +184,11 @@ async def r(ctx, sub_reddit):
 async def time(ctx):
     tz_london = pytz.timezone("Europe/London")
     tz_moscow = pytz.timezone("Europe/Moscow")
-    tz_pac = pytz.timezone("America/Seattle")
+    tz_pac = pytz.timezone("America/Los_Angeles")
     tz_mtn = pytz.timezone("America/Denver")
-    tz_cnt = pytz.timezone("America/North_Dakota/Center")
+    tz_cnt = pytz.timezone("America/Mexico_City")
     tz_est = pytz.timezone("America/New_York")
-    tz_sydney = pytz.timezone("Europe/London")
+    tz_sydney = pytz.timezone("Australia/Sydney")
 
     now_obj = dt.datetime.now(pytz.utc)
     uk_obj = now_obj.astimezone(tz_london)
