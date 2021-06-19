@@ -200,15 +200,16 @@ async def time(ctx):
     autz_obj = now_obj.astimezone(tz_sydney)
 
     l1 = "\n **The Current Time Is:** \n"
-    l2 = f"**EVE:** {str(uk_obj)[11:16]} \n"
+    l2 = f"**London:** {str(uk_obj)[11:16]} \n"
     l3 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
     l4 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
     l5 = f"**Mountain (USTZ):** {str(mtn_obj)[11:16]} \n"
     l6 = f"**Central (USTZ):** {str(cnt_obj)[11:16]} \n"
     l7 = f"**Eastern (USTZ):** {str(est_obj)[11:16]} \n"
     l8 = f"**Sydney (AUTZ):** {str(autz_obj)[11:16]} \n"
+    l9 = f"**EVE Time (UTC):** {str(now_obj)[11:16]} \n"
 
-    response = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8
+    response = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9
 
     await ctx.send(response)
 
