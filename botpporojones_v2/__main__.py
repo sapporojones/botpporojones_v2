@@ -260,7 +260,7 @@ async def corp(ctx, corporationName):
         f"&language=en&search={corporationName}&strict=false"
     )
     corp_srch_json = corp_srch.json()
-    if len(corpResults) <= 0:
+    if len(corp_srch_json) <= 0:
         raise Exception("Corporation not found")
     else:
         corp_id = corp_srch_json["corporation"][0]
@@ -299,7 +299,7 @@ async def alice(ctx, alice_name):
     )
     alice_srch_json = alice_srch.json()
     if len(alice_srch_json) <= 0:
-        raise Exception("Corporation not found")
+        raise Exception("Alliance not found")
     else:
         alice_id = alice_srch_json["corporation"][0]
 
