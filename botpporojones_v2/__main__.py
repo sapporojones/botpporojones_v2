@@ -1,24 +1,7 @@
-# using bot commands now like a big boy
-# bot sappo
-# 0.1 - initial work
-# 0.2 - conert to bot.commands
-# 0.3 - add weather command
-# 0.4 - add stock ticker lookup
-# 0.5 - add IP lookup
-# 0.6 - add reddit image pull and PRAW support
-# 0.7 - now pulling more info for stock quotes and has it properly formatted.  working on the ip command now to add google maps functionality
-# 0.8 - adding a time command
-# 0.9 - moving the PRAW reddit definition vars to .env where they are meant to live
-# 0.9.1 - beginning to add EVE ESI commands for various lookup functions using unknown ids
-
-import calendar
-
 # imports
 import datetime as dt
-import json
 import os
 import random
-import time
 
 import discord
 import praw
