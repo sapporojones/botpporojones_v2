@@ -1,0 +1,10 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "botpporojones_v2"
+  project_description: "In which I rework my old discord bot to be better, faster, more efficient, and have better commands."
+  organization: "botpporojones_v2"
+  license: "MIT"
+  version: "0.1.1"
+  github_name: "sapporojones@gmail.com"
+  email: "sapporojones@gmail.com"
