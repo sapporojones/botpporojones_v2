@@ -592,11 +592,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
 name = "rich"
-<<<<<<< HEAD
-version = "9.13.0"
-=======
 version = "10.4.0"
->>>>>>> 7e9c100f3f49c9324ded661baead6a61573056ea
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "main"
 optional = false
@@ -812,11 +808,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-<<<<<<< HEAD
-content-hash = "70e806d300d4ddb6c0b2b7a3246413436cd658bf5d595227ad1ed8f64b3e7f87"
-=======
 content-hash = "9641321f18d60db0d462060b237ce493d2ad4e1adf91ccfd793210c20dfe7838"
->>>>>>> 7e9c100f3f49c9324ded661baead6a61573056ea
 
 [metadata.files]
 aiohttp = [
