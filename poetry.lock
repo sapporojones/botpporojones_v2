@@ -85,19 +85,12 @@ stevedore = ">=1.20.0"
 
 [[package]]
 name = "black"
-<<<<<<< HEAD
 version = "20.8b1"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
 python-versions = ">=3.6"
-=======
-version = "21.6b0"
-description = "The uncompromising code formatter."
-category = "dev"
-optional = false
-python-versions = ">=3.6.2"
->>>>>>> 7e9c100f3f49c9324ded661baead6a61573056ea
+
 
 [package.dependencies]
 appdirs = "*"
