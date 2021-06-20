@@ -166,10 +166,12 @@ async def r(ctx, sub_reddit):
 )
 async def rnew(ctx, sub_reddit):
     random_submission = reddit.subreddit(sub_reddit).new()
-    if random_submission.over18 == True:
-        submission_url = "Adult content detected, not posting"
-    else:
-        submission_url = reddit.submission(random_submission).url
+    # if random_submission.over18 == True:
+    #     submission_url = "Adult content detected, not posting"
+    # else:
+    #     submission_url = reddit.submission(random_submission).url
+
+    submission_url = reddit.submission(random_submission).url
     await ctx.send(submission_url)
 
 
