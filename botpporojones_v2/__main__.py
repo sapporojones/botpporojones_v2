@@ -178,12 +178,12 @@ async def time(ctx):
     autz_obj = now_obj.astimezone(tz_sydney)
 
     l1 = f" \n **The Current Time Is:** \n"
-    l2 = f"**London:(GMT)** {str(uk_obj)[11:16]} \n"
-    l3 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
-    l4 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
-    l5 = f"**Mountain (USTZ):** {str(mtn_obj)[11:16]} \n"
-    l6 = f"**Central (USTZ):** {str(cnt_obj)[11:16]} \n"
-    l7 = f"**Eastern (USTZ):** {str(est_obj)[11:16]} \n"
+    l2 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
+    l3 = f"**Mountain (USTZ):** {str(mtn_obj)[11:16]} \n"
+    l4 = f"**Central (USTZ):** {str(cnt_obj)[11:16]} \n"
+    l5 = f"**Eastern (USTZ):** {str(est_obj)[11:16]} \n"
+    l6 = f"**London:(GMT)** {str(uk_obj)[11:16]} \n"
+    l7 = f"**Moscow (RUTZ):** {str(rus_obj)[11:16]} \n"
     l8 = f"**Sydney (AUTZ):** {str(autz_obj)[11:16]} \n"
     l9 = f"**EVE Time (UTC):** {str(now_obj)[11:16]} \n"
 
@@ -205,7 +205,7 @@ async def pilot(ctx, characterName):
         char_id = char_srch_json["character"][0]
 
     characterId = str(char_id)
-    line1 = "**PILOT SEARCH RESULTS:**" + "\n"
+    line1 = f"\n **PILOT SEARCH RESULTS:**" + "\n"
     line2 = (
         "**ZKB:** https://zkillboard.com/character/" + characterId + "/" + "\n"
     )
@@ -245,7 +245,7 @@ async def corp(ctx, corporationName):
 
     # corporationId = corpResults[0]
     corporationId = str(corp_id)
-    line1 = "**CORP SEARCH RESULTS:**" + "\n"
+    line1 = f"\n**CORP SEARCH RESULTS:**" + "\n"
     line2 = (
         "**ZKB:** https://zkillboard.com/corporation/"
         + corporationId
@@ -281,7 +281,7 @@ async def alice(ctx, alice_name):
     else:
         alice_id = alice_srch_json["alliance"][0]
 
-    line1 = "**CORP SEARCH RESULTS:**" + "\n"
+    line1 = f"\n **ALLIANCE SEARCH RESULTS:**" + "\n"
     line2 = f"**ZKB:** https://zkillboard.com/alliance/{alice_id}/ \n"
     line3 = f"**EVEWHO:** https://evewho.com/alliance/{alice_id}/ \n"
     line4 = f"**DOTLAN:** http://evemaps.dotlan.net/alliance/{alice_id}/ \n"
