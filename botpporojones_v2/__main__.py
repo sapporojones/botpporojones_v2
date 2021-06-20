@@ -291,12 +291,25 @@ async def alice(ctx, alice_name):
 
 
 @bot.command(
-    name="shlookup",
-    help="Deprecated, visit http://shlookup.sunkenrlyeh.com to use the shlookup!",
+    name="sarcasm",
+    help="Takes a string of text and converts it to sarcasm text",
 )
-async def shlookup(ctx, pilot_name):
-    response = "go to http://shlookup.sunkenrlyeh.com to use the shlookup!"
-    await ctx.send(response)
+async def sarcasm(ctx, pre_text):
+    post_list = []
+    i = 0
+    end_text = ""
+
+    for l in pre_text:
+        chance = randint(1, 100)
+        if chance >= 50:
+            post_list.append(pre_text[i].upper())
+        else:
+            post_list.append(pre_text[i].lower())
+        i += 1
+
+    for l, x in enumerate(post_list):
+        end_text = end_text + x
+    await ctx.send(end_text)
 
 
 ############################################
