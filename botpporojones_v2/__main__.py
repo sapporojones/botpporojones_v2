@@ -168,8 +168,8 @@ async def rnew(ctx, sub_reddit):
     random_submission = reddit.subreddit(sub_reddit).new(limit=1)
     x = []
     for id in random_submission:
-        x.append(id.id)
-    y = f"http://www.reddit.com/r/{sub_reddit}/{x[0]}/"
+        x.append(id.url)
+    y = x[0]
     await ctx.send(y)
 
 
