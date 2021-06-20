@@ -165,14 +165,12 @@ async def r(ctx, sub_reddit):
     name="rnew", help="returns a new image post from the specified subreddit"
 )
 async def rnew(ctx, sub_reddit):
-    random_submission = reddit.subreddit(sub_reddit).new()
-    # if random_submission.over18 == True:
-    #     submission_url = "Adult content detected, not posting"
-    # else:
-    #     submission_url = reddit.submission(random_submission).url
-
-    submission_url = reddit.submission(random_submission).url
-    await ctx.send(submission_url)
+    random_submission = reddit.subreddit(sub_reddit).new(limit=1)
+    x = []
+    for id in random_submission:
+        x.append(id.id)
+    y = f"http://www.reddit.com/r/{sub_reddit}/{x[0]}/"
+    await ctx.send(y)
 
 
 @bot.command(name="time", help="current time for a variety of timezones")
