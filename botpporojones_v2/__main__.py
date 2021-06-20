@@ -26,6 +26,14 @@ reddit_username = os.getenv("USERNAME")
 # bot command modifier
 bot = commands.Bot(command_prefix="!")
 
+reddit = praw.Reddit(
+    client_id=reddit_clientID,
+    client_secret=reddit_clientSecret,
+    password=reddit_password,
+    user_agent="testscript by /u/sapporojones",
+    username=reddit_username,
+)
+
 
 # begin bot commands
 @bot.command(
@@ -145,13 +153,6 @@ async def ip(ctx, address):
     name="r", help="returns a random image post from the specified subreddit"
 )
 async def r(ctx, sub_reddit):
-    reddit = praw.Reddit(
-        client_id=reddit_clientID,
-        client_secret=reddit_clientSecret,
-        password=reddit_password,
-        user_agent="testscript by /u/sapporojones",
-        username=reddit_username,
-    )
     random_submission = reddit.subreddit(sub_reddit).random()
     if random_submission.over_18 == True:
         submission_url = "Adult content detected, not posting"
@@ -164,15 +165,11 @@ async def r(ctx, sub_reddit):
     name="rnew", help="returns a new image post from the specified subreddit"
 )
 async def rnew(ctx, sub_reddit):
-    reddit = praw.Reddit(
-        client_id=reddit_clientID,
-        client_secret=reddit_clientSecret,
-        password=reddit_password,
-        user_agent="testscript by /u/sapporojones",
-        username=reddit_username,
-    )
     random_submission = reddit.subreddit(sub_reddit).new()
-    submission_url = f"|| {reddit.submission(random_submission).url} ||"
+    if random_submission.over18 == True:
+        submission_url = "Adult content detected, not posting"
+    else:
+        submission_url = reddit.submission(random_submission).url
     await ctx.send(submission_url)
 
 
