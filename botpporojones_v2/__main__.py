@@ -300,7 +300,7 @@ async def sarcasm(ctx, pre_text):
     end_text = ""
 
     for l in pre_text:
-        chance = randint(1, 100)
+        chance = random.randint(1, 100)
         if chance >= 50:
             post_list.append(pre_text[i].upper())
         else:
