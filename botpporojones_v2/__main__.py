@@ -141,7 +141,9 @@ async def ip(ctx, address):
     await ctx.send(full_reply)
 
 
-@bot.command(name="r", help="returns posts from the specified subreddit")
+@bot.command(
+    name="r", help="returns a random image post from the specified subreddit"
+)
 async def r(ctx, sub_reddit):
     reddit = praw.Reddit(
         client_id=reddit_clientID,
@@ -151,6 +153,25 @@ async def r(ctx, sub_reddit):
         username=reddit_username,
     )
     random_submission = reddit.subreddit(sub_reddit).random()
+    if random_submission.over_18 == True:
+        submission_url = "Adult content detected, not posting"
+    else:
+        submission_url = reddit.submission(random_submission).url
+    await ctx.send(submission_url)
+
+
+@bot.command(
+    name="rnew", help="returns a new image post from the specified subreddit"
+)
+async def rnew(ctx, sub_reddit):
+    reddit = praw.Reddit(
+        client_id=reddit_clientID,
+        client_secret=reddit_clientSecret,
+        password=reddit_password,
+        user_agent="testscript by /u/sapporojones",
+        username=reddit_username,
+    )
+    random_submission = reddit.subreddit(sub_reddit).new()
     if random_submission.over_18 == True:
         submission_url = "Adult content detected, not posting"
     else:
@@ -177,7 +198,7 @@ async def time(ctx):
     est_obj = now_obj.astimezone(tz_est)
     autz_obj = now_obj.astimezone(tz_sydney)
 
-    l1 = f" \n **The Current Time Is:** \n"
+    l1 = f"\n **The Current Time Is:** \n"
     l2 = f"**Pacific (USTZ):** {str(pac_obj)[11:16]} \n"
     l3 = f"**Mountain (USTZ):** {str(mtn_obj)[11:16]} \n"
     l4 = f"**Central (USTZ):** {str(cnt_obj)[11:16]} \n"
