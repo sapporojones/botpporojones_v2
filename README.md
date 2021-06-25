@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-# botpporojones_v2
-=======
+
 # botpporojones_v2
 
 <div align="center">
