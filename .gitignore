@@ -5,6 +5,9 @@
 ### DotEnv files used by project ###
 .env
 
+pytorch_model.bin
+
+
 ### OSX ###
 # General
 .DS_Store
