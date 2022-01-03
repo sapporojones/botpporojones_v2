@@ -2,6 +2,15 @@
 import datetime as dt
 import os
 import random
+from random import randint
+import logging
+from os.path import basename, normpath, join
+import yaml
+from datetime import datetime
+from string import punctuation
+
+from aitextgen import aitextgen
+from aitextgen.utils import build_gpt2_config
 
 import discord
 import praw
@@ -35,6 +44,23 @@ reddit = praw.Reddit(
 )
 
 
+def load_yaml(file_path: str):
+    with open(file_path, 'r') as f:
+        yaml_dict = yaml.load(f, Loader=yaml.FullLoader)
+    return yaml_dict
+
+
+
+
+
+
+
+def strip_last_punctuation(s):
+    if s and s[-1] in punctuation:
+        return s[:-1]
+    else:
+        return s
+
 # begin bot commands
 @bot.command(
     name="d100", help="Roll the d100 to determine the fate of the alliance."
@@ -57,7 +83,7 @@ async def d(ctx, en):
 
 @bot.command(name="create-channel", help="creates a text channel.")
 @commands.has_role("admin")
-async def create_channel(ctx, channel_name):
+async def create_channel(ctx, *, channel_name):
     guild = ctx.guild
     existing_channel = discord.utils.get(guild.channels, name=channel_name)
     if not existing_channel:
@@ -208,7 +234,7 @@ async def time(ctx):
 
 
 @bot.command(name="pilot", help="get various urls about a given pilot name")
-async def pilot(ctx, characterName):
+async def pilot(ctx, *, characterName):
     char_srch = requests.get(
         f"https://esi.evetech.net/latest/search/?categories=character&datasource=tranquility"
         f"&language=en&search={characterName}&strict=true"
@@ -239,7 +265,7 @@ async def pilot(ctx, characterName):
 
 
 @bot.command(name="corp", help="get various urls about a given corp")
-async def corp(ctx, corporationName):
+async def corp(ctx, *, corporationName):
     ### deprecating esipy usage for search functions due to slowness ###
     # client = SwaggerClient.from_url('https://esi.evetech.net/latest/swagger.json')
     # corpResults = client.Search.get_search(
@@ -285,7 +311,7 @@ async def corp(ctx, corporationName):
 
 
 @bot.command(name="alice", help="get various urls about a given alliance")
-async def alice(ctx, alice_name):
+async def alice(ctx, *, alice_name):
     alice_srch = requests.get(
         f"https://esi.evetech.net/latest/search/?categories=alliance&datasource=tranquility"
         f"&language=en&search={alice_name}&strict=true"
@@ -305,11 +331,97 @@ async def alice(ctx, alice_name):
     await ctx.send(response)
 
 
+@bot.command(name="sappo", help="Virtual sappo.  Currently a work in progress...")
+#async def sappo(ctx, *, user_prompt=" "):
+#    model_dir = "." # "/home/sapporojones/botpporojones_v2"
+#    vocab_file = "aitextgen-vocab.json"
+#    merges_file = "aitextgen-merges.txt"
+#    max_length = 1024
+#    prompt_in = user_prompt
+#    prompt_cleaned = prompt_in.rstrip(punctuation)
+#    # prompt_cleaned = strip_last_punctuation(prompt_in)
+#    prompt = f"{prompt_cleaned}"
+#    timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
+#    config_file = os.path.join(model_dir, "config.json")
+#    pytorch_model_file = os.path.join(model_dir, "pytorch_model.bin")
+#    vocab_file = os.path.join(model_dir, "aitextgen-vocab.json")
+#    #merges_file = os.path.join(model_dir, "aitextgen-merges.txt")
+#    tokenizer_file = os.path.join(model_dir, "aitextgen.tokenizer.json")
+#
+#    path_params = os.path.join(model_dir,"gpt2_scratch_params.yaml")
+#    params = load_yaml(path_params)
+#    params_data = params['data']
+#    params_ml = params['ml']
+#    params_gen = params['generation']
+#    logging.debug(f"Params: {params}")
+#    temperature = .3
+#
+#    ai = aitextgen(
+#        model_folder = model_dir,
+#        config = config_file,
+#	tokenizer_file = tokenizer_file,
+#        vocab_file=vocab_file,
+#        #merges_file="aitextgen-merges.txt",
+#        from_cache = True,
+#        to_gpu = False,
+#        # to_fp16=True,
+#    )
+#
+#
+#    resp = ai.generate_one(
+#        prompt=user_prompt, # prompt,
+#        max_length=1,
+#        temperature= 0.4, # temperature,
+#        # top_p=0.9,
+#        min_length = 256,
+#        top_k = 20,
+#        top_p = 0.95,
+#        nsamples=2,
+#        include_prefix=False,
+#        truncate="<|endoftext|>",
+#       # batch_size=1,
+#        nonempty_output=True,
+#        cleanup=True,
+#        #prefix = "[me] ",
+#       # n_samples = 3,
+#       # num_beams = 4,
+#    )
+#
+#    resp = ai.generate_one(max_length = 1024,)
+#
+#    # line_out = resp.replace(prompt, "").replace("<|endoftext|>", "")
+#    resp_test = resp.replace("[me] ", "").replace("<|endoftext|>", "")
+#    resp = resp.replace("&quot;", "\"").replace("&apos;", "\'")
+#    if user_prompt == "Hello! ":
+#        line_out = resp.replace("[others] Hello! ", "").replace("<|endoftext|>", "")
+#    elif resp_test == prompt_in:
+#        line_out = f"{prompt} I can honestly say I have no idea."
+#    else:
+#        line_out = resp.replace("[me] ", "").replace("<|endoftext|>", "")
+#    resp_list = resp.split("\n")
+#    
+#    resp_list_no_empty_lines = [out for out in resp_list if resp_list != ""]
+#    text_out = ""
+#    while text_out == "":
+#        idx = randint(0, len(resp_list_no_empty_lines))
+#        text_out = resp_list_no_empty_lines[idx]
+#       
+#    try:
+#        text_out = text_out.split("[me] ", 1)[1]
+#    except:
+#        pass
+#    print(text_out)
+#    await ctx.send(text_out)
+
+
+
+
+
 @bot.command(
     name="sarcasm",
     help="Takes a string of text and converts it to sarcasm text",
 )
-async def sarcasm(ctx, pre_text):
+async def sarcasm(ctx, *, pre_text):
     post_list = []
     i = 0
     end_text = ""
@@ -325,6 +437,8 @@ async def sarcasm(ctx, pre_text):
     for l, x in enumerate(post_list):
         end_text = end_text + x
     await ctx.send(end_text)
+
+
 
 
 ############################################

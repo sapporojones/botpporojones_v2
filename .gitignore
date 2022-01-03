@@ -618,3 +618,10 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/osx,python,pycharm,windows,visualstudio,visualstudiocode
+aitextgen-merges.txt
+aitextgen-vocab.json
+config.json
+gen2.py
+gpt-requirements1.txt
+gpt-requirements2.txt
+gpt2_scratch_params.yaml
