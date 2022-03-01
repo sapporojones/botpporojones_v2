@@ -9,8 +9,23 @@ import yaml
 from datetime import datetime
 from string import punctuation
 
+import pickle
+
 from aitextgen import aitextgen
 from aitextgen.utils import build_gpt2_config
+
+import torch
+from transformers import (
+    MODEL_WITH_LM_HEAD_MAPPING,
+    WEIGHTS_NAME,
+    AdamW,
+    AutoConfig,
+    AutoModelWithLMHead,
+    AutoTokenizer,
+    PreTrainedModel,
+    PreTrainedTokenizer,
+    get_linear_schedule_with_warmup,
+)
 
 import discord
 import praw
@@ -20,6 +35,12 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# tokenizer stuff
+tokenizer = AutoTokenizer.from_pretrained('microsoft/DialoGPT-small')
+model = AutoModelWithLMHead.from_pretrained('.')
+
+chat_history_ids = []
 
 # pull ins from the env file
 token = os.getenv("DISCORD_TOKEN")
@@ -48,7 +69,6 @@ def load_yaml(file_path: str):
     with open(file_path, 'r') as f:
         yaml_dict = yaml.load(f, Loader=yaml.FullLoader)
     return yaml_dict
-
 
 
 
@@ -332,86 +352,64 @@ async def alice(ctx, *, alice_name):
 
 
 @bot.command(name="sappo", help="Virtual sappo.  Currently a work in progress...")
-#async def sappo(ctx, *, user_prompt=" "):
-#    model_dir = "." # "/home/sapporojones/botpporojones_v2"
-#    vocab_file = "aitextgen-vocab.json"
-#    merges_file = "aitextgen-merges.txt"
-#    max_length = 1024
-#    prompt_in = user_prompt
-#    prompt_cleaned = prompt_in.rstrip(punctuation)
-#    # prompt_cleaned = strip_last_punctuation(prompt_in)
-#    prompt = f"{prompt_cleaned}"
-#    timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
-#    config_file = os.path.join(model_dir, "config.json")
-#    pytorch_model_file = os.path.join(model_dir, "pytorch_model.bin")
-#    vocab_file = os.path.join(model_dir, "aitextgen-vocab.json")
-#    #merges_file = os.path.join(model_dir, "aitextgen-merges.txt")
-#    tokenizer_file = os.path.join(model_dir, "aitextgen.tokenizer.json")
+async def sappo(ctx, *, user_prompt=" "):
+#    ai = aitextgen(model_folder=".", to_gpu=False,tokenizer_file="aitextgen.tokenizer.json")
 #
-#    path_params = os.path.join(model_dir,"gpt2_scratch_params.yaml")
-#    params = load_yaml(path_params)
-#    params_data = params['data']
-#    params_ml = params['ml']
-#    params_gen = params['generation']
-#    logging.debug(f"Params: {params}")
-#    temperature = .3
+#    gen_samples = ai.generate_one(
+#            prompt=user_prompt,
+#            batch_size=1,
+#            max_length=96,
+#            temperature=0.5,
+#            top_p=0.9,
+#            do_sample=True,
+#            top_k=0,
 #
-#    ai = aitextgen(
-#        model_folder = model_dir,
-#        config = config_file,
-#	tokenizer_file = tokenizer_file,
-#        vocab_file=vocab_file,
-#        #merges_file="aitextgen-merges.txt",
-#        from_cache = True,
-#        to_gpu = False,
-#        # to_fp16=True,
-#    )
-#
-#
-#    resp = ai.generate_one(
-#        prompt=user_prompt, # prompt,
-#        max_length=1,
-#        temperature= 0.4, # temperature,
-#        # top_p=0.9,
-#        min_length = 256,
-#        top_k = 20,
-#        top_p = 0.95,
-#        nsamples=2,
-#        include_prefix=False,
-#        truncate="<|endoftext|>",
-#       # batch_size=1,
-#        nonempty_output=True,
-#        cleanup=True,
-#        #prefix = "[me] ",
-#       # n_samples = 3,
-#       # num_beams = 4,
-#    )
-#
-#    resp = ai.generate_one(max_length = 1024,)
-#
-#    # line_out = resp.replace(prompt, "").replace("<|endoftext|>", "")
-#    resp_test = resp.replace("[me] ", "").replace("<|endoftext|>", "")
-#    resp = resp.replace("&quot;", "\"").replace("&apos;", "\'")
-#    if user_prompt == "Hello! ":
-#        line_out = resp.replace("[others] Hello! ", "").replace("<|endoftext|>", "")
-#    elif resp_test == prompt_in:
-#        line_out = f"{prompt} I can honestly say I have no idea."
-#    else:
-#        line_out = resp.replace("[me] ", "").replace("<|endoftext|>", "")
-#    resp_list = resp.split("\n")
-#    
-#    resp_list_no_empty_lines = [out for out in resp_list if resp_list != ""]
-#    text_out = ""
-#    while text_out == "":
-#        idx = randint(0, len(resp_list_no_empty_lines))
-#        text_out = resp_list_no_empty_lines[idx]
-#       
-#    try:
-#        text_out = text_out.split("[me] ", 1)[1]
-#    except:
-#        pass
-#    print(text_out)
-#    await ctx.send(text_out)
+#            )
+
+    
+
+    
+    
+
+
+
+    # encode the new user input, add the eos_token and return a tensor in Pytorch
+    new_user_input_ids = tokenizer.encode(user_prompt + tokenizer.eos_token, return_tensors='pt')
+    # print(new_user_input_ids)
+
+
+    chat_history_ids = new_user_input_ids
+
+
+    # append the new user input tokens to the chat history
+
+    
+    bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1)
+
+    # generated a response while limiting the total chat history to 1000 tokens, 
+    chat_history_ids = model.generate(
+        bot_input_ids, max_length=2048,
+        pad_token_id=tokenizer.eos_token_id,  
+        no_repeat_ngram_size=3,       
+        do_sample=True, 
+        top_k=100, 
+        top_p=0.9,
+        temperature = 0.9
+    )
+
+
+
+
+
+
+
+    #gen_list = gen_samples.split("\n")
+    #i = randint(0, (len(gen_list)-1))
+    text_out = tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
+
+# commenting out due to encoding loop issues    
+#    pickle.dump(chat_history_ids, open("pickle_store", "wb"))
+    await ctx.send(text_out)
 
 
 
@@ -420,6 +418,7 @@ async def alice(ctx, *, alice_name):
 @bot.command(
     name="sarcasm",
     help="Takes a string of text and converts it to sarcasm text",
+    pass_context=True,
 )
 async def sarcasm(ctx, *, pre_text):
     post_list = []
@@ -436,6 +435,7 @@ async def sarcasm(ctx, *, pre_text):
 
     for l, x in enumerate(post_list):
         end_text = end_text + x
+    await ctx.message.delete()
     await ctx.send(end_text)
 
 
